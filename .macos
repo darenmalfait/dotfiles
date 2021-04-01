@@ -57,13 +57,19 @@ discord obs the-unarchiver slack notion syncthing sketch \
 qlcolorcode qlmarkdown qlstephen quicklook-json webpquicklook \
 suspicious-package qlvideo spotify slack
 
-echo "Generating a new SSH key for Bitbucket (private)"
-ssh-keygen -t ed25519 -C "malfaitdaren@gmail.com" -f ~/.ssh/daren_bitbucket_private
+echo "Generating a new SSH key for Github (private)"
+ssh-keygen -t ed25519 -C "malfaitdaren@gmail.com" -f ~/.ssh/daren_github_private
 eval "$(ssh-agent -s)"
 touch ~/.ssh/config
-printf "# Default hostname\n Host bitbucket.org\n Hostname bitbucket.org\n AddKeysToAgent yes\n UseKeychain yes\n IdentityFile ~/.ssh/daren_bitbucket_private" | tee ~/.ssh/config
+printf "# Default hostname\n Host github.com\n Hostname github.com\n AddKeysToAgent yes\n UseKeychain yes\n IdentityFile ~/.ssh/daren_github_private" | tee ~/.ssh/config
+ssh-add -K ~/.ssh/daren_github_private
+echo "run 'pbcopy < ~/.ssh/daren_github_private.pub' and paste that into Github"
+
+echo "Generating a new SSH key for Bitbucket (private)"
+ssh-keygen -t ed25519 -C "malfaitdaren@gmail.com" -f ~/.ssh/daren_bitbucket_private
+printf "\n\n # Hostname for bitbucket (private)\n Host bitbucket.org-wheelhousedaren\n HostName bitbucket.org\n AddKeysToAgent yes\n UseKeychain yes\n IdentityFile ~/.ssh/daren_bitbucket_private" | tee -a ~/.ssh/config
 ssh-add -K ~/.ssh/daren_bitbucket_private
-echo "run 'pbcopy < ~/.ssh/daren_bitbucket_private.pub' and paste that into Bitbucket"
+echo "run 'pbcopy < ~/.ssh/daren_bitbucket_work.pub' and paste that into Bitbucket"
 
 echo "Generating a new SSH key for Bitbucket (work)"
 ssh-keygen -t ed25519 -C "daren@wheelhouse.be" -f ~/.ssh/daren_bitbucket_work
