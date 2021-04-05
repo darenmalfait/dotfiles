@@ -34,9 +34,7 @@ echo "brew installing stuff"
 # ffmpeg: eventually I'll need this for something
 # tree: really handy for listing out directories in text
 # bat: A cat(1) clone with syntax highlighting and Git integration.
-# switchaudio-osx: allows me to switch the audio device via the command line
 brew install git hub libdvdcss ripgrep imagemagick watchman tree bat \
-delta switchaudio-osx
 
 echo "installing node (via n-install)"
 curl -L https://git.io/n-install | bash
@@ -52,8 +50,8 @@ commitizen
 
 echo "installing apps with brew cask"
 brew install --cask alfred google-chrome firefox gray imageoptim \
-visual-studio-code bitwarden tower postman \
-discord obs the-unarchiver slack notion syncthing sketch \
+visual-studio-code bitwarden tower postman git-flow-avh \
+discord obs keka slack notion zoom 1password syncthing sketch \
 qlcolorcode qlmarkdown qlstephen quicklook-json webpquicklook \
 suspicious-package qlvideo spotify slack
 
@@ -892,6 +890,7 @@ echo "Done. Note that some of these changes require a logout/restart to take eff
 printf "TODO:\n\
 install: \n\
   battery indicator (App Store) \n\
+  bear (App Store) \n\
   Bitdefender (https://central.bitdefender.com) \n\
   Byword (App Store) \n\
   Magnet (App Store) \n\
