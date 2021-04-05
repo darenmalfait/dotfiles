@@ -2,10 +2,6 @@
   name = Daren Malfait
   email = malfaitdaren@gmail.com
 
-[pull]
-  rebase = true
-[branch]
-  autosetuprebase = always
 [alias]
   rh = reset --hard HEAD
   b = checkout -b
@@ -19,7 +15,6 @@
   default = current
 [core]
   editor = nano
-  pager = delta --theme="night-owlish"
 	excludesfile = /Users/darenmalfait/.gitignore_global
 [interactive]
     diffFilter = delta --color-only
