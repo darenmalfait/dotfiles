@@ -14,6 +14,7 @@
 [push]
   default = current
 [core]
+  ignorecase = false
   editor = nano
 	excludesfile = /Users/darenmalfait/.gitignore_global
 [interactive]
