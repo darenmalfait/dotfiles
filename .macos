@@ -44,7 +44,7 @@ echo "npm --version: $(npm --version)"
 
 echo "installing a few global npm packages"
 npm install --global serve fkill-cli npm-quick-run \
-semantic-release-cli npm-check-updates \
+yo semantic-release-cli npm-check-updates \
 cz-conventional-changelog gatsby netlify-cli @sanity/cli \
 commitizen
 
