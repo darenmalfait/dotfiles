@@ -1,7 +1,11 @@
 [user]
   name = Daren Malfait
-  email = malfaitdaren@gmail.com
+  email = github@daren.be
 
+[pull]
+  rebase = true
+[branch]
+  autosetuprebase = always
 [alias]
   rh = reset --hard HEAD
   b = checkout -b
@@ -14,7 +18,7 @@
 [push]
   default = current
 [core]
-  ignorecase = false
+	ignorecase = false
   editor = nano
 	excludesfile = /Users/darenmalfait/.gitignore_global
 [interactive]
