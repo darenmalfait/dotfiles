@@ -20,7 +20,7 @@
 [core]
 	ignorecase = false
   editor = nano
-	excludesfile = /Users/darenmalfait/.gitignore_global
+	excludesfile = /Users/daren/.gitignore_global
 [interactive]
     diffFilter = delta --color-only
 [color]
