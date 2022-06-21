@@ -56,9 +56,10 @@ commitizen
 
 echo "installing apps with brew cask"
 brew install --cask alfred google-chrome brave-browser firefox gray imageoptim \
-visual-studio-code tower \
-discord obs keka slack notion zoom 1password syncthing sketch \
-suspicious-package spotify slack httpie pnpm github
+visual-studio-code tower divvy bartender betterzip \
+discord obs slack notion zoom 1password syncthing \
+suspicious-package spotify slack github todoist docker \
+qlcolorcode qlmarkdown qlstephen quicklook-json webpquicklook qlvideo
 
 echo "Generating a new SSH key for Github (private)"
 ssh-keygen -t ed25519 -C "malfaitdaren@gmail.com" -f ~/.ssh/daren_github_private
