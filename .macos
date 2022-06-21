@@ -895,16 +895,11 @@ echo "Done. Note that some of these changes require a logout/restart to take eff
 
 printf "TODO:\n\
 install: \n\
-  battery indicator (App Store) \n\
-  bear (App Store) \n\
-  Bitdefender (https://central.bitdefender.com) \n\
   Byword (App Store) \n\
   Magnet (App Store) \n\
   Gifski (App Store) \n\
-  Things (App Store) \n\
   Spark (App Store) \n\
   Runcat (App Store) \n\
-  Audacity (https://www.audacityteam.org/download/) \n\
 \n\
 Restart Terminal.app\n\
 Deactivate license at https://account.git-tower.com/account/licenses \n\
