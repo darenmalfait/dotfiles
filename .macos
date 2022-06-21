@@ -55,7 +55,7 @@ cz-conventional-changelog gatsby netlify-cli @sanity/cli \
 commitizen
 
 echo "installing apps with brew cask"
-brew install --cask alfred google-chrome brave firefox gray imageoptim \
+brew install --cask alfred google-chrome brave-browser firefox gray imageoptim \
 visual-studio-code tower \
 discord obs keka slack notion zoom 1password syncthing sketch \
 suspicious-package spotify slack httpie pnpm github
