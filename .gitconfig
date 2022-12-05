@@ -1,6 +1,6 @@
 [user]
-  name = Daren Malfait
-  email = github@daren.be
+	name = Daren Malfait
+	email = me@daren.be
 
 [pull]
   rebase = true
