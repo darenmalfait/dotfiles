@@ -56,7 +56,7 @@ commitizen
 
 echo "installing apps with brew cask"
 brew install --cask alfred google-chrome brave-browser firefox gray imageoptim \
-visual-studio-code tower divvy bartender betterzip \
+visual-studio-code tower bartender betterzip \
 discord obs slack notion zoom 1password syncthing raycast \
 suspicious-package spotify slack github todoist docker \
 qlcolorcode qlmarkdown qlstephen quicklook-json webpquicklook qlvideo
