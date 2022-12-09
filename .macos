@@ -54,10 +54,13 @@ yo semantic-release-cli npm-check-updates \
 cz-conventional-changelog gatsby netlify-cli @sanity/cli \
 commitizen
 
+echo "installing apps with brew"
+brew install gnupg dopplerhq/cli/doppler
+
 echo "installing apps with brew cask"
-brew install --cask alfred google-chrome brave-browser firefox gray imageoptim \
+brew install --cask google-chrome brave-browser firefox gray imageoptim \
 visual-studio-code tower bartender betterzip \
-discord obs slack notion zoom 1password syncthing raycast \
+discord obs slack notion zoom 1password 1password/tap/1password-cli syncthing raycast \
 suspicious-package spotify slack github todoist docker \
 qlcolorcode qlmarkdown qlstephen quicklook-json webpquicklook qlvideo
 
