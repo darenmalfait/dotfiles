@@ -59,7 +59,7 @@ brew install gnupg dopplerhq/cli/doppler
 
 echo "installing apps with brew cask"
 brew install --cask google-chrome brave-browser firefox gray imageoptim \
-visual-studio-code tower bartender betterzip \
+visual-studio-code tower bartender httpie betterzip \
 discord obs slack notion zoom 1password 1password/tap/1password-cli syncthing raycast \
 suspicious-package spotify slack github todoist docker \
 qlcolorcode qlmarkdown qlstephen quicklook-json webpquicklook qlvideo
