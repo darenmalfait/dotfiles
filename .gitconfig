@@ -15,6 +15,7 @@
   amend = commit -a --amend --no-edit
   unstage = reset --soft HEAD
   cdiff = "!git diff $1 $1^"
+  cleanup = "!git branch --merged | grep  -v '\\*\\|master\\|develop\\|main' | xargs -n 1 -r git branch -d"
 [push]
   default = current
 [core]
