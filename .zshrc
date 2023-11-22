@@ -88,16 +88,14 @@ alias ll="ls -1a";
 alias ..="cd ../";
 alias ..l="cd ../ && ll";
 alias pg="echo 'Pinging Google' && ping www.google.com";
-alias vz="vim ~/.zshrc";
 alias cz="code ~/.zshrc";
-alias sz="source ~/.zshrc";
 alias de="cd ~/Desktop";
 alias d="cd ~/code";
 alias showFiles='defaults write com.apple.finder AppleShowAllFiles YES; killall Finder /System/Library/CoreServices/Finder.app'
 alias hideFiles='defaults write com.apple.finder AppleShowAllFiles NO; killall Finder /System/Library/CoreServices/Finder.app'
 alias deleteDSFiles="find . -name '.DS_Store' -type f -delete"
 
-alias npm-update="npx ncu --dep prod --dep dev --upgrade";
+alias npm-update="npx npm-check-updates --dep prod --dep dev --upgrade";
 alias yarn-update="yarn upgrade-interactive --latest";
 alias flushdns="sudo dscacheutil -flushcache;sudo killall -HUP mDNSResponder"
 alias dont_index_node_modules='find . -type d -name "node_modules" -exec touch "{}/.metadata_never_index" \;';
@@ -128,3 +126,9 @@ export NVM_DIR="$HOME/.nvm"
 export PNPM_HOME="/Users/darenmalfait/Library/pnpm"
 export PATH="$PNPM_HOME:$PATH"
 # pnpm end
+# bun completions
+[ -s "/Users/darenmalfait/.bun/_bun" ] && source "/Users/darenmalfait/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
