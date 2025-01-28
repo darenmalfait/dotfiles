@@ -156,7 +156,7 @@ function openv {
   local env_path=".env"
 
   # Parse command line arguments to override defaults if provided
-  while getopts "d:e:" opt; do
+  while getopts "f:" opt; do
     case $opt in
       f) env_path="$OPTARG" ;;
       *) return 1 ;;
@@ -189,11 +189,10 @@ function openv {
 #   -r         Write raw secret values instead of op:// references
 # 
 function oppull {
-  # Set default values
   local env_path=".env"
   local raw=false
+  local environment="local"
 
-  # Parse command line arguments to override defaults if provided
   while getopts "f:r" opt; do
     case $opt in
       f) env_path="$OPTARG" ;;
@@ -203,28 +202,57 @@ function oppull {
   done
   shift $((OPTIND-1))
 
-  # Check if we have an argument
   if [ -z "$1" ]; then
     echo "Please provide an item name"
     return 1
   fi
+  
+  local -a environments
+  environments=(local dev prod test staging custom)
+  
+  echo "Select environment:"
+  integer i=1
+  for env in $environments; do
+    echo "$i. $env"
+    ((i++))
+  done
+  echo -n "Enter choice [1-${#environments}] (default: local): "
+  read choice
 
-  # see if we are logged in, will return exit code > 0 if not
-  op whoami
-
-  # if we are logged skip if not ask for master password
-  if [[ $? != 0 ]]; then 
-    eval $(op signin)
-  fi
-
-  # Get all secrets from the vault and combine them
-  if [ "$raw" = true ]; then
-    op item get "$1" --format json | jq -r '.fields[] | select(.value != null) | "\(.label)=\(.value)"' > "${env_path}"
+  if [ -z "$choice" ]; then
+    environment="local"
   else
-    op item get "$1" --format json | jq -r --arg item "$1" '.fields[] | select(.value != null) | "\(.label)=op://ENV/\($item)/\(.label)"' > "${env_path}"
+    # Convert choice to array index (subtract 1)
+    index=$((choice - 1))
+    if [ "$index" -ge 0 ] && [ "$index" -lt "${#environments}" ]; then
+      environment=$environments[index+1]
+      if [ "$environment" = "custom" ]; then
+        echo -n "Enter custom environment name: "
+        read custom_env
+        if [ -n "$custom_env" ]; then
+          environment="$custom_env"
+        else
+          environment="local"
+        fi
+      fi
+    else
+      echo "Invalid selection, using default: local"
+      environment="local"
+    fi
   fi
 
-  if [[ $? == 0 ]]; then
+  local item_name="${1}_${environment}"
+
+  op whoami || eval $(op signin)
+
+  local output_format='.fields[] | select(.value != null)'
+  if [ "$raw" = true ]; then
+    output_format+=' | "\(.label)=\(.value)"'
+  else
+    output_format+=" | \"\(.label)=op://ENV/${item_name}/\(.label)\""
+  fi
+
+  if op item get "$item_name" --format json | jq -r --arg item "$item_name" "$output_format" > "${env_path}"; then
     echo "✨ Successfully wrote secrets to ${env_path}"
   else
     echo "❌ Failed to write secrets to ${env_path}"
@@ -246,6 +274,7 @@ function oppull {
 function oppush {
   # Set default values
   local env_path=".env"
+  local environment="local"
 
   # Parse command line arguments to override defaults if provided
   while getopts "f:" opt; do
@@ -268,6 +297,43 @@ function oppush {
     return 1
   fi
 
+  # Environment selection
+  local -a environments
+  environments=(local dev prod test staging custom)
+  
+  echo "Select environment:"
+  integer i=1
+  for env in $environments; do
+    echo "$i. $env"
+    ((i++))
+  done
+  echo -n "Enter choice [1-${#environments}] (default: local): "
+  read choice
+
+  if [ -z "$choice" ]; then
+    environment="local"
+  else
+    # Convert choice to array index (subtract 1)
+    index=$((choice - 1))
+    if [ "$index" -ge 0 ] && [ "$index" -lt "${#environments}" ]; then
+      environment=$environments[index+1]
+      if [ "$environment" = "custom" ]; then
+        echo -n "Enter custom environment name: "
+        read custom_env
+        if [ -n "$custom_env" ]; then
+          environment="$custom_env"
+        else
+          environment="local"
+        fi
+      fi
+    else
+      echo "Invalid selection, using default: local"
+      environment="local"
+    fi
+  fi
+
+  local item_name="${1}_${environment}"
+
   # see if we are logged in, will return exit code > 0 if not
   op whoami
 
@@ -277,13 +343,13 @@ function oppush {
   fi
 
   # Create a backup of the current item if it exists
-  if op item get "$1" --vault ENV &>/dev/null; then
-    echo "⚠️  Item '$1' already exists. Creating backup..."
-    op item get "$1" --vault ENV --format json > "${1}.backup.json"
+  if op item get "$item_name" --vault ENV &>/dev/null; then
+    echo "⚠️  Item '$item_name' already exists. Creating backup..."
+    op item get "$item_name" --vault ENV --format json > "${item_name}.backup.json"
   fi
 
   # Create a temporary JSON file for the new item
-  echo '{"title":"'"$1"'","category":"LOGIN","fields":[]}' > temp_item.json
+  echo '{"title":"'"$item_name"'","category":"LOGIN","fields":[]}' > temp_item.json
 
   # Read the env file and add each variable to the JSON
   while IFS='=' read -r key value || [ -n "$key" ]; do
@@ -299,8 +365,8 @@ function oppush {
   done < "${env_path}"
 
   # Create or update the item in 1Password
-  if op item get "$1" --vault ENV &>/dev/null; then
-    op item delete "$1" --vault ENV --archive
+  if op item get "$item_name" --vault ENV &>/dev/null; then
+    op item delete "$item_name" --vault ENV --archive
     op item create --vault ENV --template temp_item.json
   else
     op item create --vault ENV --template temp_item.json
@@ -310,14 +376,14 @@ function oppush {
   rm temp_item.json
 
   if [[ $? == 0 ]]; then
-    echo "✨ Successfully saved ${env_path} to 1Password vault 'ENV' as '$1'"
+    echo "✨ Successfully saved ${env_path} to 1Password vault 'ENV' as '$item_name'"
   else
     echo "❌ Failed to save ${env_path} to 1Password"
-    if [ -f "${1}.backup.json" ]; then
+    if [ -f "${item_name}.backup.json" ]; then
       echo "🔄 Restoring from backup..."
-      op item delete "$1" --vault ENV --archive
-      op item create --vault ENV --template "${1}.backup.json"
-      rm "${1}.backup.json"
+      op item delete "$item_name" --vault ENV --archive
+      op item create --vault ENV --template "${item_name}.backup.json"
+      rm "${item_name}.backup.json"
     fi
   fi
 }
