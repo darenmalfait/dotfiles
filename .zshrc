@@ -192,19 +192,22 @@ function oppull {
   local env_path=".env"
   local raw=false
   local environment="local"
+  local vault="ENV"  # Default vault
+  local item_name="web"  # Default item name
 
-  while getopts "f:r" opt; do
+  while getopts "f:rv:" opt; do
     case $opt in
       f) env_path="$OPTARG" ;;
       r) raw=true ;;
+      v) vault="$OPTARG" ;;
       *) return 1 ;;
     esac
   done
   shift $((OPTIND-1))
 
-  if [ -z "$1" ]; then
-    echo "Please provide an item name"
-    return 1
+  # Use first argument as item name if provided
+  if [ ! -z "$1" ]; then
+    item_name="$1"
   fi
   
   local -a environments
@@ -241,7 +244,7 @@ function oppull {
     fi
   fi
 
-  local item_name="${1}_${environment}"
+  item_name="${item_name}_${environment}"
 
   op whoami || eval $(op signin)
 
@@ -249,10 +252,10 @@ function oppull {
   if [ "$raw" = true ]; then
     output_format+=' | "\(.label)=\(.value)"'
   else
-    output_format+=" | \"\(.label)=op://ENV/${item_name}/\(.label)\""
+    output_format+=" | \"\(.label)=op://${vault}/${item_name}/\(.label)\""
   fi
 
-  if op item get "$item_name" --format json | jq -r --arg item "$item_name" "$output_format" > "${env_path}"; then
+  if op item get "$item_name" --vault "$vault" --format json | jq -r --arg item "$item_name" "$output_format" > "${env_path}"; then
     echo "✨ Successfully wrote secrets to ${env_path}"
   else
     echo "❌ Failed to write secrets to ${env_path}"
@@ -275,20 +278,22 @@ function oppush {
   # Set default values
   local env_path=".env"
   local environment="local"
+  local vault="ENV"  # Default vault
+  local item_name="web"  # Default item name
 
   # Parse command line arguments to override defaults if provided
-  while getopts "f:" opt; do
+  while getopts "f:v:" opt; do
     case $opt in
       f) env_path="$OPTARG" ;;
+      v) vault="$OPTARG" ;;
       *) return 1 ;;
     esac
   done
   shift $((OPTIND-1))
 
-  # Check if we have an argument
-  if [ -z "$1" ]; then
-    echo "Please provide an item name"
-    return 1
+  # Use first argument as item name if provided
+  if [ ! -z "$1" ]; then
+    item_name="$1"
   fi
 
   # Check if env file exists
@@ -332,7 +337,7 @@ function oppush {
     fi
   fi
 
-  local item_name="${1}_${environment}"
+  item_name="${item_name}_${environment}"
 
   # see if we are logged in, will return exit code > 0 if not
   op whoami
@@ -343,9 +348,9 @@ function oppush {
   fi
 
   # Create a backup of the current item if it exists
-  if op item get "$item_name" --vault ENV &>/dev/null; then
+  if op item get "$item_name" --vault "$vault" &>/dev/null; then
     echo "⚠️  Item '$item_name' already exists. Creating backup..."
-    op item get "$item_name" --vault ENV --format json > "${item_name}.backup.json"
+    op item get "$item_name" --vault "$vault" --format json > "${item_name}.backup.json"
   fi
 
   # Create a temporary JSON file for the new item
@@ -365,24 +370,24 @@ function oppush {
   done < "${env_path}"
 
   # Create or update the item in 1Password
-  if op item get "$item_name" --vault ENV &>/dev/null; then
-    op item delete "$item_name" --vault ENV --archive
-    op item create --vault ENV --template temp_item.json
+  if op item get "$item_name" --vault "$vault" &>/dev/null; then
+    op item delete "$item_name" --vault "$vault" --archive
+    op item create --vault "$vault" --template temp_item.json
   else
-    op item create --vault ENV --template temp_item.json
+    op item create --vault "$vault" --template temp_item.json
   fi
 
   # Clean up
   rm temp_item.json
 
   if [[ $? == 0 ]]; then
-    echo "✨ Successfully saved ${env_path} to 1Password vault 'ENV' as '$item_name'"
+    echo "✨ Successfully saved ${env_path} to 1Password vault '${vault}' as '$item_name'"
   else
     echo "❌ Failed to save ${env_path} to 1Password"
     if [ -f "${item_name}.backup.json" ]; then
       echo "🔄 Restoring from backup..."
-      op item delete "$item_name" --vault ENV --archive
-      op item create --vault ENV --template "${item_name}.backup.json"
+      op item delete "$item_name" --vault "$vault" --archive
+      op item create --vault "$vault" --template "${item_name}.backup.json"
       rm "${item_name}.backup.json"
     fi
   fi
