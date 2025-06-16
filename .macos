@@ -54,18 +54,16 @@ echo "npm --version: $(npm --version)"
 echo "installing a few global npm packages"
 npm install --global serve fkill-cli npm-quick-run \
 yo semantic-release-cli npm-check-updates \
-cz-conventional-changelog gatsby netlify-cli @sanity/cli \
-commitizen
+cz-conventional-changelog better-commits
 
 echo "installing apps with brew"
 brew install gnupg dopplerhq/cli/doppler
 
 echo "installing apps with brew cask"
 brew install --cask google-chrome brave-browser firefox gray imageoptim \
-visual-studio-code tower bartender httpie betterzip \
-discord obs slack notion zoom 1password 1password/tap/1password-cli syncthing raycast \
-suspicious-package spotify slack github todoist docker \
-qlcolorcode qlmarkdown qlstephen quicklook-json webpquicklook qlvideo
+visual-studio-code bartender httpie betterzip obsidian \
+discord slack 1password 1password/tap/1password-cli syncthing raycast \
+suspicious-package spotify slack github todoist docker 
 
 echo "Generating a new SSH key for Github (private)"
 ssh-keygen -t ed25519 -C "malfaitdaren@gmail.com" -f ~/.ssh/daren_github_private
@@ -74,18 +72,6 @@ touch ~/.ssh/config
 printf "# Default hostname\n Host github.com\n Hostname github.com\n AddKeysToAgent yes\n UseKeychain yes\n IdentityFile ~/.ssh/daren_github_private" | tee ~/.ssh/config
 ssh-add -K ~/.ssh/daren_github_private
 echo "run 'pbcopy < ~/.ssh/daren_github_private.pub' and paste that into Github"
-
-echo "Generating a new SSH key for Bitbucket (private)"
-ssh-keygen -t ed25519 -C "malfaitdaren@gmail.com" -f ~/.ssh/daren_bitbucket_private
-printf "\n\n # Hostname for bitbucket (private)\n Host bitbucket.org\n HostName bitbucket.org\n AddKeysToAgent yes\n UseKeychain yes\n IdentityFile ~/.ssh/daren_bitbucket_private" | tee -a ~/.ssh/config
-ssh-add -K ~/.ssh/daren_bitbucket_private
-echo "run 'pbcopy < ~/.ssh/daren_bitbucket_work.pub' and paste that into Bitbucket"
-
-echo "Generating a new SSH key for Bitbucket (work)"
-ssh-keygen -t ed25519 -C "example@companyname.be" -f ~/.ssh/daren_bitbucket_work
-printf "\n\n # Hostname for work\n Host bitbucket.org-companyname\n HostName bitbucket.org\n AddKeysToAgent yes\n UseKeychain yes\n IdentityFile ~/.ssh/daren_bitbucket_work" | tee -a ~/.ssh/config
-ssh-add -K ~/.ssh/daren_bitbucket_work
-echo "run 'pbcopy < ~/.ssh/daren_bitbucket_work.pub' and paste that into Bitbucket"
 
 echo "cloning dotfiles"
 git clone http://192.168.0.69:3000/daren/dotfiles.git "${HOME}/dotfiles"
@@ -904,7 +890,6 @@ echo "Done. Note that some of these changes require a logout/restart to take eff
 
 printf "TODO:\n\
 install: \n\
-  Byword (App Store) \n\
   Magnet (App Store) \n\
   Gifski (App Store) \n\
   Spark (App Store) \n\

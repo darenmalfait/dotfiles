@@ -113,10 +113,6 @@ autoload -Uz compinit && compinit
 
 export N_PREFIX="$HOME/n"; [[ :$PATH: == *":$N_PREFIX/bin:"* ]] || PATH+=":$N_PREFIX/bin"  # Added by n-install (see http://git.io/n-install-repo).
 
-export DOTENVOP_VAULT=
-export DOTENVOP_ACCOUNT=
-export DOTENVOP_EMAIL=
-
 # This loads nvm without restarting the shell
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
@@ -183,6 +179,7 @@ function openv {
 #   oppull -f custom.env item-name    # Write to custom env file
 #   oppull -r item-name              # Write raw secret values (default)
 #   oppull item-name                 # Write as op:// references
+#   oppull -v vault item-name       # Write to a specific vault
 #
 # Options:
 #   -f <file>  Specify custom env file path (default: .env)
@@ -267,6 +264,7 @@ function oppull {
 # Usage:
 #   oppush item-name              # Save secrets from default .env file
 #   oppush -f custom.env item-name # Save secrets from custom env file
+#   oppush -v vault item-name     # Save secrets to a specific vault
 #
 # Options:
 #   -f <file>  Specify custom env file path (default: .env)
@@ -392,3 +390,9 @@ function oppush {
     fi
   fi
 }
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/darenmalfait/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/darenmalfait/Downloads/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/darenmalfait/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/darenmalfait/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
