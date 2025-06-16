@@ -1,6 +1,6 @@
 [user]
 	name = Daren Malfait
-	email = me@daren.be
+	email = daren@nerdfish.be
 
 [pull]
   rebase = true
@@ -45,3 +45,5 @@
 	process = git-lfs filter-process
 	required = true
 	clean = git-lfs clean -- %f
+[fetch]
+	prune = true
