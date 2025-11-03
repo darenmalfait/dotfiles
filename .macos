@@ -57,7 +57,7 @@ yo semantic-release-cli npm-check-updates \
 cz-conventional-changelog better-commits
 
 echo "installing apps with brew"
-brew install gnupg dopplerhq/cli/doppler
+brew install gnupg dopplerhq/cli/doppler ni
 
 echo "installing apps with brew cask"
 brew install --cask google-chrome brave-browser firefox gray imageoptim \
