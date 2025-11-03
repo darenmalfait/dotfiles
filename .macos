@@ -33,11 +33,10 @@ echo "brew installing stuff"
 # hub: a github-specific version of git
 # libdvdcss: makes handbreak capable of ripping DVDs
 # ripgrep: rg is faster than alternatives
-# imagemagick: eventually I will need this for something
 # ffmpeg: eventually I'll need this for something
 # tree: really handy for listing out directories in text
 # bat: A cat(1) clone with syntax highlighting and Git integration.
-brew install git hub libdvdcss ripgrep imagemagick watchman tree bat \
+brew install git hub libdvdcss ripgrep tree bat gnupg dopplerhq/cli/doppler ni \
 
 echo "installing node (via nvm)"
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
@@ -52,16 +51,13 @@ echo "node --version: $(node --version)"
 echo "npm --version: $(npm --version)"
 
 echo "installing a few global npm packages"
-npm install --global serve fkill-cli npm-quick-run \
+npm install --global serve \
 yo semantic-release-cli npm-check-updates \
 cz-conventional-changelog better-commits
 
-echo "installing apps with brew"
-brew install gnupg dopplerhq/cli/doppler ni
-
 echo "installing apps with brew cask"
 brew install --cask google-chrome brave-browser firefox gray imageoptim \
-visual-studio-code bartender httpie betterzip obsidian \
+visual-studio-code httpie betterzip obsidian \
 discord slack 1password 1password/tap/1password-cli syncthing raycast \
 suspicious-package spotify slack github todoist docker 
 
