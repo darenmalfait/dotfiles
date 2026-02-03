@@ -397,3 +397,7 @@ if [ -f '/Users/darenmalfait/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . 
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/darenmalfait/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/darenmalfait/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
 export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
+export JAVA_HOME="/Applications/Android Studio.app/Contents/jbr/Contents/Home"
+
+export GEM_HOME="$HOME/.gem"
+export PATH="$HOME/.gem/bin:$PATH"
