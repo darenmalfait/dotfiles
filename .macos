@@ -38,6 +38,10 @@ echo "brew installing stuff"
 # bat: A cat(1) clone with syntax highlighting and Git integration.
 brew install git hub libdvdcss ripgrep tree bat gnupg dopplerhq/cli/doppler ni \
 
+# install whatcable
+brew tap darrylmorley/whatcable
+brew install --cask whatcable
+
 echo "installing node (via nvm)"
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
 nvm install node
