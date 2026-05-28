@@ -63,7 +63,7 @@ echo "installing apps with brew cask"
 brew install --cask google-chrome brave-browser firefox gray imageoptim \
 visual-studio-code httpie betterzip obsidian \
 discord slack 1password 1password/tap/1password-cli syncthing raycast \
-suspicious-package spotify slack github todoist docker 
+suspicious-package spotify slack github todoist docker taphouse
 
 echo "Generating a new SSH key for Github (private)"
 ssh-keygen -t ed25519 -C "malfaitdaren@gmail.com" -f ~/.ssh/daren_github_private
